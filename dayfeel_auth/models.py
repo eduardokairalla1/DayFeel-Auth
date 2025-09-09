@@ -16,7 +16,7 @@ class Config(BaseSettings):
     """
     Application configuration.
     """
-    example: str = 'Hello, World!'
+    POSTGRES_URL: str
 
     class Config:
         """
