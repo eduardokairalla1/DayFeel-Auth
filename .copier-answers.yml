@@ -1,0 +1,8 @@
+# Changes here will be overwritten by Copier
+_commit: v0.1.0
+_src_path: git+ssh://git@github.com/eduardokairalla1/fastapi-project-starter.git
+author_name: Eduardo Kairalla
+base_image: infra/py313-slim-bookworm:3.13.5
+ci_image: ci/py313-slim-bookworm
+description: This is a service to take care of DayFeel API authentications
+name: dayfeel_auth

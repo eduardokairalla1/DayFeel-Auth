@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dayfeel_auth"
+version = "0.0.1"
+description = "This is a service to take care of DayFeel API authentications"
+authors = ["Eduardo Kairalla"]
+packages = [{include = "dayfeel_auth"}]
+include = ["pyproject.lock"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+fastapi = "^0.116.1"
+pydantic = "^2.7.3"
+pydantic-settings = "^2.10.1"
+uvicorn = "^0.35.0"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.7"
+pylint_exit = "^1.2.0"
+isort = "^6.0.1"

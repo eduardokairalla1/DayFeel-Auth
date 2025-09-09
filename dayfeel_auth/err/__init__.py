@@ -1,0 +1,3 @@
+"""
+Dayfeel_auth exceptions.
+"""
