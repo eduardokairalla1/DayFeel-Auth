@@ -6,6 +6,7 @@ Global service objects.
 from dayfeel_auth.models import Config
 from dayfeel_auth.models import Health
 from dayfeel_auth.models import Info
+from dayfeel_auth.schemas.container import Container
 from fastapi import FastAPI
 
 
@@ -29,3 +30,8 @@ info = Info(
 
 # System health
 health = Health()
+
+# Initialize container
+container: Container = {
+    'config': config
+}
