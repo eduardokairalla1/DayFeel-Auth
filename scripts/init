@@ -1,4 +1,23 @@
 #!/bin/bash
 
+echo "==> Waiting for Postgres..."
+
+# check postgres until it's ready
+if command -v pg_isready >/dev/null 2>&1; then
+  until pg_isready -h "${POSTGRES_HOST:-localhost}" -p "${POSTGRES_PORT:-5432}" -U "${POSTGRES_USER:-postgres}" >/dev/null 2>&1; do
+    sleep 1
+  done
+else
+  until (echo >"/dev/tcp/${POSTGRES_HOST:-localhost}/${POSTGRES_PORT:-5432}") >/dev/null 2>&1; do
+    sleep 1
+  done
+fi
+
+echo "==> Postgres is up. Running migrations..."
+
+# run alembic migrations
+alembic upgrade head
+
+echo "==> Starting Uvicorn on 0.0.0.0:80"
 # Start production server
 exec uvicorn --app-dir ${APP:-/app/dayfeel_auth} --host ${BIND:-0.0.0.0} --port ${PORT:-80} main:app
