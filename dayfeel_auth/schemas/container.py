@@ -3,6 +3,7 @@ Container (dependency injection) Schema.
 """
 
 # --- IMPORTS ---
+from dayfeel_auth.db.sqlalchemy.repository.users import UsersRepository
 from dayfeel_auth.models import Config
 
 
@@ -18,3 +19,4 @@ class Container(TypedDict):
     """
     config: Config
     logger: Logger
+    users_repository: UsersRepository

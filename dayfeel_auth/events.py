@@ -4,7 +4,10 @@ Startup and shutdown event handlers.
 
 # --- IMPORTS ---
 from dayfeel_auth import routers
+from dayfeel_auth.app import container
 from dayfeel_auth.app import health
+from dayfeel_auth.db.sqlalchemy.repository.users import UsersRepository
+from dayfeel_auth.db.sqlalchemy.setup.database_engine import create_database_engine
 from fastapi import FastAPI
 
 
@@ -15,6 +18,17 @@ def on_startup(app: FastAPI) -> None:
     """
     # Mount routers
     routers.mount(app)
+
+    # Create database engine
+    database_engine = create_database_engine(url = container['config'].POSTGRES_URL)
+
+    # Initialize users repository
+    users_repository = UsersRepository(engine = database_engine)
+
+    # Update global container
+    container.update({
+        'users_repository': users_repository
+    })
 
     # Set app health as OK
     health.status = 'OK'
