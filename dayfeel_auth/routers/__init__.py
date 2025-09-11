@@ -4,6 +4,7 @@ HTTP routers.
 
 # --- IMPORTS ---
 from dayfeel_auth.routers import system
+from dayfeel_auth.routers import users
 from fastapi import FastAPI
 
 
@@ -17,3 +18,4 @@ def mount(app: FastAPI) -> None:
     :returns: nothing
     """
     app.include_router(system.router, tags = ['system'])
+    app.include_router(users.router, tags = ['users'])
