@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from dayfeel_auth.app import app
 from dayfeel_auth.events import on_shutdown
 from dayfeel_auth.events import on_startup
+from dayfeel_auth.responders import errors  # pylint: disable=W0611
 from fastapi import FastAPI
 
 
