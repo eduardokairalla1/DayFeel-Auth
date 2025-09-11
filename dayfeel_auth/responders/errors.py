@@ -5,6 +5,7 @@ Responder's error handlers.
 # --- IMPORTS ---
 from dayfeel_auth.app import app
 from dayfeel_auth.app import container
+from dayfeel_auth.err.already_exists_error import AlreadyExistsError
 from dayfeel_auth.err.database_unavailable_error import DatabaseUnavailableError
 from fastapi import Request
 from fastapi.exceptions import HTTPException
@@ -13,6 +14,34 @@ from fastapi.responses import JSONResponse
 
 
 # --- CODE ---
+@app.exception_handler(AlreadyExistsError)
+async def already_exists_error_handler(
+    request: Request,  # pylint: disable=W0613
+    error: AlreadyExistsError
+) -> JSONResponse:
+    """
+    Handle AlreadyExistsError exceptions.
+
+    :param request: http request.
+    :param error: AlreadyExistsError instance.
+
+    :returns: JSONResponse with 'error' field describing the exception.
+    """
+    # get error parameters
+    entity = error.args[1].get('entity')
+    local = error.args[1].get('local')
+    detail = error.args[1].get('detail')
+
+    # log error
+    container['logger'].error(f'The {entity} already exists in {local}: {detail}')
+
+    # fail request
+    return JSONResponse(
+        {'error': error.message},
+        status_code = 409,
+    )
+
+
 @app.exception_handler(DatabaseUnavailableError)
 async def database_unavailable_error_handler(
     request: Request,  # pylint: disable=W0613
