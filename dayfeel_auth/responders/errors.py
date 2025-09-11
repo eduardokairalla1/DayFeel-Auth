@@ -5,6 +5,7 @@ Responder's error handlers.
 # --- IMPORTS ---
 from dayfeel_auth.app import app
 from dayfeel_auth.app import container
+from dayfeel_auth.err.database_unavailable_error import DatabaseUnavailableError
 from fastapi import Request
 from fastapi.exceptions import HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -12,6 +13,32 @@ from fastapi.responses import JSONResponse
 
 
 # --- CODE ---
+@app.exception_handler(DatabaseUnavailableError)
+async def database_unavailable_error_handler(
+    request: Request,  # pylint: disable=W0613
+    error: DatabaseUnavailableError
+) -> JSONResponse:
+    """
+    Handle DatabaseUnavailableError exceptions.
+
+    :param request: http request.
+    :param error: DatabaseUnavailableError instance.
+
+    :returns: JSONResponse with 'error' field describing the exception.
+    """
+    # get error parameters
+    detail = error.args[1]
+
+    # log errors
+    container['logger'].error(f'Database failed: {detail}')
+
+    # fail request
+    return JSONResponse(
+        {'error': error.message},
+        status_code = 503,
+    )
+
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(
     request: Request,
