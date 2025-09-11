@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dayfeel_auth"
-version = "0.0.1"
+version = "0.1.0"
 description = "This is a service to take care of DayFeel API authentications"
 authors = ["Eduardo Kairalla"]
 packages = [{include = "dayfeel_auth"}]
