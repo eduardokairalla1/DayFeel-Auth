@@ -19,9 +19,13 @@ def on_startup(app: FastAPI) -> None:
     # Set app health as OK
     health.status = 'OK'
 
+    # Log service start
+    container['logger'].info('Service started')
+
 
 def on_shutdown(app: FastAPI) -> None:  #pylint: disable=W0613
     """
     Run on service shutdown.
     """
-    pass
+    # Log service shutdown
+    container['logger'].info('Service shutdown')
