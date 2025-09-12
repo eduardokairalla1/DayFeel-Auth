@@ -8,6 +8,9 @@ from dayfeel_auth.models import Health
 from dayfeel_auth.models import Info
 from dayfeel_auth.schemas.container import Container
 from fastapi import FastAPI
+from loguru import logger
+
+import sys
 
 
 # --- CODE ---
@@ -31,7 +34,19 @@ info = Info(
 # System health
 health = Health()
 
+# Initialize logger
+logger.remove()
+logger.add(
+    sys.stdout,
+    format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
+           "<level>{level:<8}</level> | "
+           "<white>{message}</white>",
+    level="DEBUG",
+    enqueue=True
+)
+
 # Initialize container
 container: Container = {
-    'config': config
+    'config': config,
+    'logger': logger
 }

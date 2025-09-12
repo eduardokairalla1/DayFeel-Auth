@@ -7,6 +7,7 @@ from dayfeel_auth.models import Config
 
 
 # --- TYPES ---
+from loguru._logger import Logger
 from typing import TypedDict
 
 
@@ -16,3 +17,4 @@ class Container(TypedDict):
     Structure for global application resources.
     """
     config: Config
+    logger: Logger
