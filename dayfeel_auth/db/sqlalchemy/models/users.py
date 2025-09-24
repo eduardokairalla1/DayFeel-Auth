@@ -11,6 +11,7 @@ from sqlalchemy import Enum
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import func
+from sqlalchemy.orm import relationship
 
 
 # --- CODE ---
@@ -29,3 +30,6 @@ class Users(BASE):
     last_login = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())  # pylint: disable=E1102
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())  # pylint: disable=E1102
+
+    # ORM relationship
+    sessions = relationship("AuthSessions", back_populates="user", cascade="all, delete-orphan", passive_deletes=True)
