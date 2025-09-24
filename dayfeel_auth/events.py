@@ -20,10 +20,10 @@ def on_startup(app: FastAPI) -> None:
     routers.mount(app)
 
     # Create database engine
-    database_engine = create_database_engine(url = container['config'].POSTGRES_URL)
+    database_engine = create_database_engine(url=container['config'].POSTGRES_URL)
 
     # Initialize users repository
-    users_repository = UsersRepository(engine = database_engine)
+    users_repository = UsersRepository(engine=database_engine)
 
     # Update global container
     container.update({
