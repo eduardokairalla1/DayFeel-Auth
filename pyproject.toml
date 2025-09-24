@@ -17,6 +17,7 @@ sqlalchemy = "^2.0.43"
 psycopg2-binary = "^2.9.10"
 alembic = "^1.16.5"
 argon2-cffi = "^25.1.0"
+pyjwt = "^2.10.1"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.7"
