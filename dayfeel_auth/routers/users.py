@@ -30,7 +30,7 @@ async def register_user(payload: RegisterPayload) -> JSONResponse:
 
     :returns: JSON Response.
     """
-
+    # Log request
     container['logger'].info('Register user request "POST /auth/register" received')
 
     # Get users database repository
@@ -53,6 +53,7 @@ async def register_user(payload: RegisterPayload) -> JSONResponse:
         'role': user.role.value
     }
 
+    # Log success
     container['logger'].info('Register user request "POST /auth/register" succeeded with status 201')
 
     # Return json
