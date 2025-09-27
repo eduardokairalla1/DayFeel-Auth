@@ -5,8 +5,10 @@ Users endpoints.
 # --- IMPORTS ---
 from dayfeel_auth.app import container
 from dayfeel_auth.db.sqlalchemy.models.users import Users
+from dayfeel_auth.utils.routers.require_admin import require_admin
 from dayfeel_auth.utils.security import hash_password
 from fastapi import APIRouter
+from fastapi import Depends
 from fastapi.responses import JSONResponse
 
 
@@ -22,7 +24,8 @@ router = APIRouter()
 # --- CODE ---
 # Register user endpoint
 @router.post('/register', response_model = dict)
-async def register_user(payload: RegisterPayload) -> JSONResponse:
+async def register_user(payload: RegisterPayload,
+                        current_admin: dict = Depends(require_admin)) -> JSONResponse:  # pylint: disable=W0613
     """
     Register user endpoint.
 
