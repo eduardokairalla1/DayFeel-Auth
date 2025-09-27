@@ -7,6 +7,7 @@ from dayfeel_auth.app import app
 from dayfeel_auth.app import container
 from dayfeel_auth.err.already_exists_error import AlreadyExistsError
 from dayfeel_auth.err.database_unavailable_error import DatabaseUnavailableError
+from dayfeel_auth.err.invalid_token_error import InvalidTokenError
 from fastapi import Request
 from fastapi.exceptions import HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -65,6 +66,32 @@ async def database_unavailable_error_handler(
     return JSONResponse(
         {'error': error.message},
         status_code = 503,
+    )
+
+
+@app.exception_handler(InvalidTokenError)
+async def invalid_token_error_handler(
+    request: Request,  # pylint: disable=W0613
+    error: InvalidTokenError
+) -> JSONResponse:
+    """
+    Handle InvalidTokenError exceptions.
+
+    :param request: http request.
+    :param error: InvalidTokenError instance.
+
+    :returns: JSONResponse with 'error' field describing the exception.
+    """
+    # get error parameters
+    detail = error.args[1]
+
+    # log errors
+    container['logger'].error(f'Invalid Token: {detail}')
+
+    # fail request
+    return JSONResponse(
+        {'error': error.message},
+        status_code = 400,
     )
 
 
