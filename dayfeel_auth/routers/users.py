@@ -21,7 +21,7 @@ router = APIRouter()
 
 # --- CODE ---
 # Register user endpoint
-@router.post('/auth/register', response_model = dict)
+@router.post('/register', response_model = dict)
 async def register_user(payload: RegisterPayload) -> JSONResponse:
     """
     Register user endpoint.
@@ -43,7 +43,7 @@ async def register_user(payload: RegisterPayload) -> JSONResponse:
     new_user = Users(email=payload.email, password_hash=password_hash, name=payload.name)
 
     # Add user to database
-    user = db.insert_user(user = new_user)
+    user = db.insert_user(user=new_user)
 
     # Create endpoint response
     response = {
