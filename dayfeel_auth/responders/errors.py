@@ -85,14 +85,14 @@ async def http_exception_handler(
     method = request.scope['method']
     path = request.scope['path']
     status = error.status_code
-    detail = error.detail.get('error')
+    detail = error.detail
 
     # log errors
     container['logger'].error(f'Request "{method} {path}" failed with {status}: {detail}')
 
     # fail request
     return JSONResponse(
-        {'error': error.detail.get('error')},
+        {'error': error.detail},
         status_code = error.status_code,
     )
 
