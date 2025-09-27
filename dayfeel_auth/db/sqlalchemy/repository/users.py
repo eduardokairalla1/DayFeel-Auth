@@ -60,7 +60,7 @@ class UsersRepository:
             except IntegrityError as e:
                 raise AlreadyExistsError({'entity': 'user',
                                           'local': 'database',
-                                          'detail': e}) from e
+                                          'detail': 'User already exists.'}) from e
 
             # If database is unavailable: raise error
             except Exception as e:
