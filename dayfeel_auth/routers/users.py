@@ -5,8 +5,10 @@ Users endpoints.
 # --- IMPORTS ---
 from dayfeel_auth.app import container
 from dayfeel_auth.db.sqlalchemy.models.users import Users
+from dayfeel_auth.utils.routers.require_admin import require_admin
 from dayfeel_auth.utils.security import hash_password
 from fastapi import APIRouter
+from fastapi import Depends
 from fastapi.responses import JSONResponse
 
 
@@ -22,7 +24,8 @@ router = APIRouter()
 # --- CODE ---
 # Register user endpoint
 @router.post('/register', response_model = dict)
-async def register_user(payload: RegisterPayload) -> JSONResponse:
+async def register_user(payload: RegisterPayload,
+                        current_admin: dict = Depends(require_admin)) -> JSONResponse:  # pylint: disable=W0613
     """
     Register user endpoint.
 
@@ -30,8 +33,8 @@ async def register_user(payload: RegisterPayload) -> JSONResponse:
 
     :returns: JSON Response.
     """
-
-    container['logger'].info('Register user request "POST /auth/register" received')
+    # Log request
+    container['logger'].info('Register user request "POST /register" received')
 
     # Get users database repository
     db = container['users_repository']
@@ -53,7 +56,8 @@ async def register_user(payload: RegisterPayload) -> JSONResponse:
         'role': user.role.value
     }
 
-    container['logger'].info('Register user request "POST /auth/register" succeeded with status 201')
+    # Log success
+    container['logger'].info('Register user request "POST /register" succeeded with status 201')
 
     # Return json
     return JSONResponse(content=response, status_code=201)
