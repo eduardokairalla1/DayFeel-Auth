@@ -17,6 +17,9 @@ class Config(BaseSettings):
     Application configuration.
     """
     POSTGRES_URL: str
+    JWT_SECRET_KEY: str
+    JWT_ACCESS_TOKEN_EXP_MIN: int
+    JWT_REFRESH_TOKEN_EXP_MIN: int
 
     class Config:
         """
