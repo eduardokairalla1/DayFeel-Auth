@@ -16,7 +16,7 @@ fi
 echo "==> Postgres is up. Running migrations..."
 
 # run alembic migrations
-alembic upgrade head
+alembic -c /app/alembic.ini upgrade head
 
 echo "==> Starting Uvicorn on 0.0.0.0:80"
 # Start production server
